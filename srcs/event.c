@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 13:19:24 by schaaban          #+#    #+#             */
-/*   Updated: 2018/10/10 15:21:41 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/10/18 15:00:27 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,16 @@ static void			s_event_keys(t_rt *rt)
 	if (rt->event.key.keysym.sym == SDLK_r)
 	{
 		ft_clear_screen(0xff3333ff, rt);
+		printf("bonjour\n");
+	}
+	if (rt->event.key.keysym.sym == SDLK_t)
+	{
+		ft_clear_screen(0xff3333ff, rt);
+		printf("bonjour2\n");
 	}
 	if (rt->event.key.keysym.sym == SDLK_e)
 	{
-		rt_export_screenshoot(rt, "file.bmp");
+		printf("bonjour\n");
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 13:15:01 by schaaban          #+#    #+#             */
-/*   Updated: 2018/10/11 20:04:32 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/10/12 14:24:01 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void				button_pressed(t_rt *rt)
 {
-	rt = rt;
+	(void)rt;
 	printf("Button pressed !\n");
 }
 
