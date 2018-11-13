@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 18:15:06 by schaaban          #+#    #+#             */
-/*   Updated: 2018/11/08 06:05:26 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/11/13 12:54:40 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void				sdl_img_export(SDL_Surface *img, char *filename)
 		return ; /* error */
 }
 
-void				rt_export_screenshoot(t_rt *rt, char *filename)
+void				rt_export_screenshoot(t_list_win *win, char *filename)
 {
-	sdl_img_export(rt->render, filename);
+	sdl_img_export(win->render, filename);
 }

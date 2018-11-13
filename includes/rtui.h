@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 13:08:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/10/11 20:06:30 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/11/13 12:56:06 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,51 +17,103 @@
 # include <stdio.h>
 # include <math.h>
 # include <SDL.h>
+# include "libft.h"
 
 # define WIDTH		500
 # define HEIGHT		500
 
 # define RT_PI		(double)3.14159265359
 
-# if SDL_BYTEORDER == SDL_BIG_ENDIAN
-#  define RT_SDL_RMASK			0x00ff0000
-#  define RT_SDL_GMASK			0x0000ff00
-#  define RT_SDL_BMASK			0x000000ff
-#  define RT_SDL_AMASK			0xff000000
-# else
-#  define RT_SDL_RMASK			0x00ff0000
-#  define RT_SDL_GMASK			0x0000ff00
-#  define RT_SDL_BMASK			0x000000ff
-#  define RT_SDL_AMASK			0xff000000
-# endif
+# define RT_SDL_RMASK			0x00ff0000
+# define RT_SDL_GMASK			0x0000ff00
+# define RT_SDL_BMASK			0x000000ff
+# define RT_SDL_AMASK			0xff000000
 
-typedef struct		s_rt
+# define ERR_MALLOC				1
+
+# define UI_BTN_Y				50
+# define UI_BTN_SPC				25
+# define UI_WIDTH				300
+# define UI_HEIGHT				650
+
+typedef struct s_rt
+					t_rt;
+typedef struct s_v3
+					t_v3;
+typedef struct s_v3
+					t_v2;
+typedef struct s_aabb
+					t_aabb;
+typedef struct s_list_win
+					t_list_win;
+typedef struct s_list_btn
+					t_list_btn;
+typedef struct s_gui
+					t_gui;
+typedef struct s_menu
+					t_menu;
+
+struct		s_menu
+{
+	t_list_btn	*list_btn;
+
+	int			cam_y;
+	int			max_y;
+};
+
+struct		s_gui
+{
+	t_menu	*menu_main;
+	t_menu	*menu_cam;
+
+	t_menu	*actual_menu;
+};
+
+struct		s_rt
 {
 	SDL_Event		event;
-	SDL_Surface		*render;
-	SDL_Window		*win;
+	
+	t_list_win		*list_win;
+	t_list_win		*focus_win;
+	t_list_win		*mouse_win;
 
+	t_gui			gui;
+
+	Uint32			id_main_win;
+	
 	int				exit;
-}					t_rt;
+};
 
-typedef struct		s_v3
+struct		s_list_win
+{
+	Uint32		id;
+
+	SDL_Window	*win;
+	SDL_Surface	*render;
+
+	t_list_win	*next;
+};
+
+struct		s_v3
 {
 	double		x;
 	double		y;
 	double		z;
-}					t_v3;
+};
 
-typedef struct		s_aabb
+struct		s_aabb
 {
 	double		x;
 	double		y;
 	double		w;
 	double		h;
-}					t_aabb;
+};
 
-typedef struct		s_btn
+struct		s_list_btn
 {
 	SDL_Surface		*tex;
+	SDL_Surface		*tex_hover;
+	SDL_Surface		*tex_click;
 
 	t_aabb			aabb;
 
@@ -69,11 +121,9 @@ typedef struct		s_btn
 	int				st_pressing;
 	
 	void			(*action_call)(t_rt*);
-}					t_btn;
 
-typedef t_v3		t_v2;
-
-void				button_pressed(t_rt *rt);
+	t_list_btn		*next;
+};
 
 double				to_rad(double degrees);
 double				to_deg(double radians);
@@ -98,10 +148,21 @@ double				v3_ang(t_v3 v1, t_v3 v2);
 
 int					aabb_col_pt(t_aabb aabb, t_v2 pt);
 
-t_btn				btn_new(char *filename, t_aabb aabb,
-	void (*action_call)(t_rt*));
-void				btn_update(t_rt *rt, t_btn *button);
-void				btn_draw(t_rt *rt, t_btn btn);
+void				list_btn_add(t_rt *rt, t_list_btn **list, t_list_btn new);
+void				list_btn_del(t_list_btn *list);
+void				list_btn_cam(t_rt *rt, int add);
+void				list_btn_update(t_rt *rt, t_list_btn *list, int mouse_out);
+void				list_btn_draw(t_list_win *win, t_list_btn *list);
+
+void				list_win_add(t_rt *rt, t_list_win **list, t_list_win new);
+void				list_win_del(t_list_win *list);
+void				list_win_delone(t_list_win **list, t_list_win *el);
+t_list_win			*list_win_get(t_list_win *list, Uint32 id);
+
+void				gui_set_button_pos(t_menu *menu);
+
+void				error_handler(t_rt *rt, int error_code);
+void				rt_exit(t_rt *rt);
 
 void				sdl_loop(t_rt *rt);
 void				sdl_event_manager(t_rt *rt);
@@ -110,9 +171,9 @@ void				ft_update(t_rt *rt);
 
 SDL_Surface			*sdl_img_import(char *filename);
 void				sdl_img_export(SDL_Surface *img, char *filename);
-void				rt_export_screenshoot(t_rt *rt, char *filename);
+void				rt_export_screenshoot(t_list_win *win, char *filename);
 
-void				ft_put_pixel(int x, int y, Uint32 c, t_rt *rt);
-void				ft_clear_screen(Uint32 color, t_rt *rt);
+void				ft_put_pixel(int x, int y, Uint32 c, t_list_win *win);
+void				ft_clear_screen(Uint32 color, t_list_win *win);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 13:06:29 by schaaban          #+#    #+#             */
-/*   Updated: 2018/11/11 07:08:31 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/11/13 12:56:19 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static void			s_init_ptrs(t_rt *rt)
 {
-	rt->win = NULL;
-	rt->render = NULL;
 	rt->list_win = NULL;
 	rt->focus_win = NULL;
 	rt->mouse_win = NULL;
