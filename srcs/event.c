@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 13:19:24 by schaaban          #+#    #+#             */
-/*   Updated: 2018/10/18 15:00:27 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/11/11 20:46:18 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,55 @@
 
 static void			s_event_window(t_rt *rt)
 {
-	if (rt->event.type == SDL_WINDOWEVENT)
+	if (rt->event.window.event == SDL_WINDOWEVENT_CLOSE)
 	{
-		if (rt->event.window.event == SDL_WINDOWEVENT_CLOSE)
-		{
+		if (rt->event.window.windowID == rt->id_main_win)
 			rt->exit = 1;
-		}
+		else
+			list_win_delone(&(rt->list_win),
+				list_win_get(rt->list_win, rt->event.window.windowID));
+		rt->mouse_win = NULL;
 	}
-	if (rt->event.type == SDL_QUIT)
+	else if (rt->event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
 	{
-		rt->exit = 1;
+		rt->focus_win = list_win_get(rt->list_win, rt->event.window.windowID);
 	}
+	else if (rt->event.window.event == SDL_WINDOWEVENT_ENTER)
+		rt->mouse_win = list_win_get(rt->list_win, rt->event.window.windowID);
+	else if (rt->event.window.event == SDL_WINDOWEVENT_LEAVE)
+		rt->mouse_win = NULL;
 }
 
 static void			s_event_keys(t_rt *rt)
 {
 	if (rt->event.key.keysym.sym == SDLK_ESCAPE)
 	{
-		rt->exit = 1;
+		if (rt->focus_win->id == rt->id_main_win)
+			rt->exit = 1;
+		else
+			list_win_delone(&(rt->list_win), rt->focus_win);
+		rt->mouse_win = NULL;
 	}
-	if (rt->event.key.keysym.sym == SDLK_r)
+}
+
+static void			s_event_wheel(t_rt *rt)
+{
+	if (rt->event.wheel.y > 0)
 	{
-		ft_clear_screen(0xff3333ff, rt);
-		printf("bonjour\n");
+		rt->gui.actual_menu->cam_y = ((rt->gui.actual_menu->cam_y + 30) > 0) ?
+			0 : rt->gui.actual_menu->cam_y + 30;
 	}
-	if (rt->event.key.keysym.sym == SDLK_t)
+	else
 	{
-		ft_clear_screen(0xff3333ff, rt);
-		printf("bonjour2\n");
-	}
-	if (rt->event.key.keysym.sym == SDLK_e)
-	{
-		printf("bonjour\n");
+		if ((rt->gui.actual_menu->cam_y - 30) <
+			(UI_HEIGHT - rt->gui.actual_menu->max_y - UI_BTN_Y))
+		{
+			if ((UI_HEIGHT - rt->gui.actual_menu->max_y - UI_BTN_Y) <= 0)
+				rt->gui.actual_menu->cam_y = 
+					(UI_HEIGHT - rt->gui.actual_menu->max_y - UI_BTN_Y);
+		}
+		else
+			rt->gui.actual_menu->cam_y -= 30;
 	}
 }
 
@@ -53,9 +70,14 @@ void				sdl_event_manager(t_rt *rt)
 {
 	while (SDL_PollEvent(&rt->event))
 	{
-		s_event_window(rt);
 		if (rt->event.type == SDL_KEYDOWN)
 			s_event_keys(rt);
+		if (rt->event.type == SDL_WINDOWEVENT)
+			s_event_window(rt);
+		if (rt->event.type == SDL_MOUSEWHEEL)
+			s_event_wheel(rt);
+		if (rt->event.type == SDL_QUIT)
+			rt->exit = 1;
 	}
 	return ;
 }

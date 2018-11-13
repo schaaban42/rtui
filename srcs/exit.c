@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   img_manager.c                                      :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/09 18:15:06 by schaaban          #+#    #+#             */
-/*   Updated: 2018/11/08 06:05:26 by schaaban         ###   ########.fr       */
+/*   Created: 2018/11/01 00:27:13 by schaaban          #+#    #+#             */
+/*   Updated: 2018/11/11 07:07:32 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtui.h"
 
-SDL_Surface			*sdl_img_import(char *filename)
+static void			s_free_sdl(t_rt *rt)
 {
-	SDL_Surface		*img;
-	if (!(img = SDL_LoadBMP(filename)))
-		return (NULL); /* error */
-	return (img);
+	if (rt->win)
+		SDL_DestroyWindow(rt->win);
 }
 
-void				sdl_img_export(SDL_Surface *img, char *filename)
+void				rt_exit(t_rt *rt)
 {
-	if ((SDL_SaveBMP(img, filename)) == -1)
-		return ; /* error */
-}
-
-void				rt_export_screenshoot(t_rt *rt, char *filename)
-{
-	sdl_img_export(rt->render, filename);
+	s_free_sdl(rt);
+	list_win_del(rt->list_win);
+	list_btn_del(rt->gui.menu_main->list_btn);
+	if (rt->gui.menu_main)
+		ft_memdel((void**)&(rt->gui.menu_main));
+	list_btn_del(rt->gui.menu_cam->list_btn);
+	if (rt->gui.menu_cam)
+		ft_memdel((void**)&(rt->gui.menu_cam));
+	SDL_Quit();
+	exit(0);
 }

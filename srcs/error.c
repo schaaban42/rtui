@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 18:25:53 by schaaban          #+#    #+#             */
-/*   Updated: 2018/11/07 22:27:46 by schaaban         ###   ########.fr       */
+/*   Created: 2018/11/06 16:32:23 by schaaban          #+#    #+#             */
+/*   Updated: 2018/11/06 16:43:54 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdlib.h>
+#include "rtui.h"
 
-char	*ft_strnew(size_t size)
+void				error_handler(t_rt *rt, int error_code)
 {
-	char	*str;
-	size_t	i;
-
-	i = 0;
-	if ((str = (char*)ft_memalloc(sizeof(char) * (size + 1))) == NULL)
-		return (NULL);
-	while (i <= size)
-		str[i++] = '\0';
-	return (str);
+	if (error_code == ERR_MALLOC)
+		ft_putendl_fd("error: memory allocation failed", 2);
+	rt_exit(rt);
 }

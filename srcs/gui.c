@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   img_manager.c                                      :+:      :+:    :+:   */
+/*   gui.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/09 18:15:06 by schaaban          #+#    #+#             */
-/*   Updated: 2018/11/08 06:05:26 by schaaban         ###   ########.fr       */
+/*   Created: 2018/11/11 06:49:38 by schaaban          #+#    #+#             */
+/*   Updated: 2018/11/11 07:54:15 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtui.h"
 
-SDL_Surface			*sdl_img_import(char *filename)
+void				gui_set_button_pos(t_menu *menu)
 {
-	SDL_Surface		*img;
-	if (!(img = SDL_LoadBMP(filename)))
-		return (NULL); /* error */
-	return (img);
-}
+	t_list_btn	*it;
+	int			ch;
+	int			i;
 
-void				sdl_img_export(SDL_Surface *img, char *filename)
-{
-	if ((SDL_SaveBMP(img, filename)) == -1)
-		return ; /* error */
-}
-
-void				rt_export_screenshoot(t_rt *rt, char *filename)
-{
-	sdl_img_export(rt->render, filename);
+	ch = 0;
+	i = 0;
+	it = menu->list_btn;
+	if (!it)
+		return ;
+	while (it)
+	{
+		it->aabb.x = (double)(UI_WIDTH * 0.5) - (it->aabb.w * 0.5);
+		it->aabb.y = (double)(UI_BTN_Y + (UI_BTN_SPC * i)) + ch;
+		ch += it->aabb.h;
+		it = it->next;
+		i++;
+	}
+	it = menu->list_btn;
+	while (it->next)
+		it = it->next;
+	menu->max_y = it->aabb.y + it->aabb.h;
 }
