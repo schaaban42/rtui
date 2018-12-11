@@ -6,17 +6,17 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 15:09:35 by schaaban          #+#    #+#             */
-/*   Updated: 2018/10/11 15:37:28 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:31:29 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtui.h"
 
-void				v3_set(t_v3 *v, double newX, double newY, double newZ)
+void				v3_set(t_v3 *v, double new_x, double new_y, double new_z)
 {
-	v->x = newX;
-	v->y = newY;
-	v->z = newZ;
+	v->x = new_x;
+	v->y = new_y;
+	v->z = new_z;
 }
 
 void				v3_reset(t_v3 *v)
@@ -150,9 +150,7 @@ t_v3				v3_rot_z(t_v3 v, double a)
 
 t_v3				v3_rot(t_v3 v, double ax, double ay, double az)
 {
-	return (
-		v3_rot_x(v3_rot_y(v3_rot_z(v, az), ay), ax)
-	);
+	return (v3_rot_x(v3_rot_y(v3_rot_z(v, az), ay), ax));
 }
 
 double				v3_ang(t_v3 v1, t_v3 v2)

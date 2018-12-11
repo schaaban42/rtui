@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 05:03:49 by schaaban          #+#    #+#             */
-/*   Updated: 2018/12/10 17:38:10 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:27:27 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void				rtui_init(t_rt *rt)
 	rt->exit = 0;
 	s_init_digits(rt);
 	s_init_menu_main(rt);
-	s_init_menu_cam(rt, 99);
+	s_init_menu_cam(rt, 8);
 	rt->gui.actual_menu = rt->gui.menu_main;
 	gui_set_button_pos(rt->gui.menu_main);
 	gui_set_button_pos(rt->gui.menu_cam);

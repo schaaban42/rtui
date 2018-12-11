@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/31 17:49:46 by schaaban          #+#    #+#             */
-/*   Updated: 2018/12/10 04:13:19 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:35:41 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void				list_btn_cam(t_rt *rt, int add)
 		return ;
 	while (it)
 	{
-		it->aabb.y += (add) ? rt->gui.actual_menu->cam_y : 
+		it->aabb.y += (add) ? rt->gui.actual_menu->cam_y :
 			-rt->gui.actual_menu->cam_y;
 		it = it->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/11 06:49:38 by schaaban          #+#    #+#             */
-/*   Updated: 2018/11/11 07:54:15 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:34:24 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void				gui_set_button_pos(t_menu *menu)
 		return ;
 	while (it)
 	{
-		it->aabb.x = (double)(UI_WIDTH * 0.5) - (it->aabb.w * 0.5);
-		it->aabb.y = (double)(UI_BTN_Y + (UI_BTN_SPC * i)) + ch;
+		it->aabb.x = (double)((double)UI_WIDTH * 0.5) - (it->aabb.w * 0.5);
+		it->aabb.y = (double)((double)UI_BTN_Y + ((double)UI_BTN_SPC * i)) + ch;
 		ch += it->aabb.h;
 		it = it->next;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 13:08:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/12/10 17:54:34 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:34:48 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define UI_BTN_DG_Y			28
 # define UI_BTN_DG_SPC			0
 
-# define RT_PI					(double)3.14159265359
+# define RT_PI					M_PI
 
 # define RT_SDL_RMASK			0x00ff0000
 # define RT_SDL_GMASK			0x0000ff00
