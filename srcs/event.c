@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 13:19:24 by schaaban          #+#    #+#             */
-/*   Updated: 2018/11/11 20:46:18 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/12/07 14:51:50 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static void			s_event_window(t_rt *rt)
 		else
 			list_win_delone(&(rt->list_win),
 				list_win_get(rt->list_win, rt->event.window.windowID));
-		rt->mouse_win = NULL;
+		rt->focus_win = list_win_get(rt->list_win, rt->id_main_win);
+		rt->mouse_win = list_win_get(rt->list_win, rt->id_main_win);
 	}
-	else if (rt->event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
-	{
+	else if (rt->event.window.event == SDL_WINDOWEVENT_TAKE_FOCUS
+		|| rt->event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
 		rt->focus_win = list_win_get(rt->list_win, rt->event.window.windowID);
-	}
 	else if (rt->event.window.event == SDL_WINDOWEVENT_ENTER)
 		rt->mouse_win = list_win_get(rt->list_win, rt->event.window.windowID);
 	else if (rt->event.window.event == SDL_WINDOWEVENT_LEAVE)
@@ -41,20 +41,24 @@ static void			s_event_keys(t_rt *rt)
 			rt->exit = 1;
 		else
 			list_win_delone(&(rt->list_win), rt->focus_win);
-		rt->mouse_win = NULL;
+		rt->focus_win = NULL;
+		rt->mouse_win = list_win_get(rt->list_win, rt->id_main_win);
 	}
 }
 
 static void			s_event_wheel(t_rt *rt)
 {
+	if (rt->mouse_win->id != rt->id_main_win)
+		return ;
 	if (rt->event.wheel.y > 0)
 	{
-		rt->gui.actual_menu->cam_y = ((rt->gui.actual_menu->cam_y + 30) > 0) ?
-			0 : rt->gui.actual_menu->cam_y + 30;
+		rt->gui.actual_menu->cam_y = ((rt->gui.actual_menu->cam_y
+			+ UI_SCROLL_SP) > 0) ?
+			0 : rt->gui.actual_menu->cam_y + UI_SCROLL_SP;
 	}
 	else
 	{
-		if ((rt->gui.actual_menu->cam_y - 30) <
+		if ((rt->gui.actual_menu->cam_y - UI_SCROLL_SP) <
 			(UI_HEIGHT - rt->gui.actual_menu->max_y - UI_BTN_Y))
 		{
 			if ((UI_HEIGHT - rt->gui.actual_menu->max_y - UI_BTN_Y) <= 0)
@@ -62,7 +66,7 @@ static void			s_event_wheel(t_rt *rt)
 					(UI_HEIGHT - rt->gui.actual_menu->max_y - UI_BTN_Y);
 		}
 		else
-			rt->gui.actual_menu->cam_y -= 30;
+			rt->gui.actual_menu->cam_y -= UI_SCROLL_SP;
 	}
 }
 
